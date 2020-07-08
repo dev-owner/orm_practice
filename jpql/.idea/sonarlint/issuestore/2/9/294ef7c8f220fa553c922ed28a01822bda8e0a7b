@@ -1,0 +1,11 @@
+
+E
+java:S1148-"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ĞÙäƒ°.
+i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(·š†‡8¹¡åƒ°.
+M
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8î—ùÌ².
+Q
+java:S3740""/Provide the parametrized type for this generic.(…àá÷úÿÿÿÿ8ü‚øÌ².
+U	java:S106%"9Replace this use of System.out or System.err by a logger.(½îã8ÁÅøÌ².
+i
+java:S1223"LRename this method to prevent any misunderstanding or make it a constructor.(Çµí‘8¹¡åƒ°.

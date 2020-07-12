@@ -1,8 +1,15 @@
 
-]	java:S1258"<This block of commented-out lines of code should be removed.(–œÂïøÿÿÿÿ8œı¦õ².
+[	java:S106†"9Replace this use of System.out or System.err by a logger.(Ğö¶üÿÿÿÿ8íÔÇ³.
 i
 java:S1223
 "LRename this method to prevent any misunderstanding or make it a constructor.(Çµí‘8¹¡åƒ°.
+]	java:S125G"<This block of commented-out lines of code should be removed.(É­öËùÿÿÿÿ8úâ»Å³.
+]	java:S125@"<This block of commented-out lines of code should be removed.(œ‘§äøÿÿÿÿ8±êÅ³.
+W	java:S125Y"<This block of commented-out lines of code should be removed.(¨¹ôO8Ä®ßÅ³.
+X	java:S125O"<This block of commented-out lines of code should be removed.(Ú¸Æç8…äÊÅ³.
+]	java:S125}"<This block of commented-out lines of code should be removed.(âèÂúÿÿÿÿ8¼–€Ç³.
+]	java:S1258"<This block of commented-out lines of code should be removed.(–œÂïøÿÿÿÿ8œı¦õ².
+]	java:S125s"<This block of commented-out lines of code should be removed.(Ğë”¯ıÿÿÿÿ8´•ÓÆ³.
 ]	java:S1250"<This block of commented-out lines of code should be removed.(ÏÒ¿·ûÿÿÿÿ8•¹€õ².
 i	java:S101	"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(·š†‡8¹¡åƒ°.
-Z	java:S106C"9Replace this use of System.out or System.err by a logger.(Ôºªıÿÿÿÿ8°§›õ².
+]	java:S125c"<This block of commented-out lines of code should be removed.(ÖßÒµüÿÿÿÿ8²Ç°Æ³.

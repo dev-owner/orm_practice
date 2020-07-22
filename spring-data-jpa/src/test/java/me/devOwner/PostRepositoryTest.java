@@ -23,6 +23,7 @@ public class PostRepositoryTest {
     @Test
     @Rollback(false)
     public void crudRepository() {
+
         // Given
         Post post = new Post();
         post.setTitle("spring boot common");

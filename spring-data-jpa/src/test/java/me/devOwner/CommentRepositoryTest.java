@@ -4,10 +4,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +41,41 @@ public class CommentRepositoryTest {
 
         Optional<Comment> byId = commentRepository.findById(100l);
         assertThat(byId).isEmpty();
+    }
+
+    @Test
+    public void test_query() {
+        this.createComment("Spring data jpa", 100);
+        this.createComment("Spring data v", 200);
+
+        List<Comment> comments = commentRepository.
+                findByCommentContainsIgnoreCaseAndLikeCountGreaterThan("Spring", 10);
+        assertThat(comments.size()).isEqualTo(2);
+
+        List<Comment> spring = commentRepository.findByCommentContainsIgnoreCaseOrderByLikeCountDesc("Spring");
+        assertThat(spring.size()).isEqualTo(2);
+        assertThat(spring).first().hasFieldOrPropertyWithValue("likeCount", 200);
+
+        PageRequest likeCount = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "LikeCount"));
+        Page<Comment> spring1 = commentRepository.findByCommentContainsIgnoreCase("Spring", likeCount);
+        assertThat(spring1.getNumberOfElements()).isEqualTo(2);
+        assertThat(spring1).first().hasFieldOrPropertyWithValue("likeCount", 200);
+
+
+        try (Stream<Comment> spring2 = commentRepository.
+                findByCommentContainsIgnoreCaseAndLikeCountGreaterThan("spring", 10, likeCount)) {
+            Comment firstComment = spring2.findFirst().get();
+            assertThat(firstComment.getLikeCount()).isEqualTo(200);
+        }
 
     }
+
+    private void createComment(String text, int likeCount) {
+        Comment comment = new Comment();
+        comment.setComment(text);
+        comment.setLikeCount(likeCount);
+        commentRepository.save(comment);
+    }
+
 
 }

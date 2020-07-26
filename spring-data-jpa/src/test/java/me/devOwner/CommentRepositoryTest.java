@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,7 +46,7 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    public void test_query() {
+    public void test_query() throws ExecutionException, InterruptedException {
         this.createComment("Spring data jpa", 100);
         this.createComment("Spring data v", 200);
 
@@ -67,6 +69,13 @@ public class CommentRepositoryTest {
             Comment firstComment = spring2.findFirst().get();
             assertThat(firstComment.getLikeCount()).isEqualTo(200);
         }
+
+        Future<List<Comment>> spring2 =
+                commentRepository.findByCommentContainsIgnoreCaseOrderByLikeCountAsc("spring", likeCount);
+        System.out.println("is done? : " + spring2.isDone());
+
+        List<Comment> comments1 = spring2.get();
+        comments1.forEach(System.out::println);
 
     }
 

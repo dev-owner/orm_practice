@@ -66,4 +66,13 @@ public class PostRepositoryTest {
         assertThat(spring1).isEqualTo(1);
     }
 
+    @Test
+    public void crud2() {
+        Post post = new Post();
+        post.setTitle("hibernate");
+        postRepository.save(post);
+        postRepository.findMyPost();
+        postRepository.delete(post);
+        postRepository.flush();
+    }
 }

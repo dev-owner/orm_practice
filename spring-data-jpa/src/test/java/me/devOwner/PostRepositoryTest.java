@@ -71,8 +71,22 @@ public class PostRepositoryTest {
         Post post = new Post();
         post.setTitle("hibernate");
         postRepository.save(post);
-        postRepository.findMyPost();
+        //postRepository.findMyPost();
         postRepository.delete(post);
         postRepository.flush();
+    }
+
+    @Test
+    public void crud3() {
+        Post post = new Post();
+        post.setTitle("hi");
+
+        assertThat(postRepository.contains(post)).isFalse();
+
+        postRepository.save(post);
+        assertThat(postRepository.contains(post)).isTrue();
+
+
+
     }
 }

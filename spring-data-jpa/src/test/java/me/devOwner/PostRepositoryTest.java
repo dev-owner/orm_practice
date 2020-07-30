@@ -85,8 +85,5 @@ public class PostRepositoryTest {
 
         postRepository.save(post);
         assertThat(postRepository.contains(post)).isTrue();
-
-
-
     }
 }

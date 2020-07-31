@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
@@ -15,10 +17,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@Import(PostRepositoryTestConfig.class)
 public class PostRepositoryTest {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    ApplicationContext applicationContext;
+
+    @Test
+    public void event() {
+        Post post = new Post();
+        post.setTitle("event");
+//        PostPublishedEvent postPublishedEvent = new PostPublishedEvent(post);
+//        applicationContext.publishEvent(postPublishedEvent);
+        postRepository.save(post.publish());
+    }
 
     @Test
     @Rollback(false)

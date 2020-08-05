@@ -1,5 +1,6 @@
 package me.devOwner;
 
+import com.querydsl.core.types.Predicate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -100,5 +102,17 @@ public class PostRepositoryTest {
 
         postRepository.save(post);
         assertThat(postRepository.contains(post)).isTrue();
+    }
+
+    @Test
+    public void query_dsl_test() {
+        Post post = new Post();
+        post.setTitle("hibernate");
+        postRepository.save(post.publish());
+
+        Predicate predicate = QPost.post.title.containsIgnoreCase("Hibernate");
+        Optional<Post> one = postRepository.findOne(predicate);
+        assertThat(one).isNotEmpty();
+
     }
 }

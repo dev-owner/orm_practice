@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Import(PostRepositoryTestConfig.class)
-public class PostRepositoryTest {
+public class WebPostRepositoryTest {
 
     @Autowired
     PostRepository postRepository;

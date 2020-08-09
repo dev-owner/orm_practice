@@ -1,6 +1,8 @@
 package me.devOwner.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,5 +20,10 @@ public class WebPostController {
         Optional<WebPost> byId = webPostRepository.findById(id);
         WebPost post = byId.get();
         return post.getTitle();
+    }
+
+    @GetMapping("/posts")
+    public Page<WebPost> getPosts(Pageable pageable) {
+        return webPostRepository.findAll(pageable);
     }
 }

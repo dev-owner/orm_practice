@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+//@NamedQuery(name = "Post.findByTitle", query = "select p from Post p where p.title = ?1")
 public class Post extends AbstractAggregateRoot<Post> {
     @Id
     @GeneratedValue

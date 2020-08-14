@@ -35,6 +35,6 @@ public interface PostRepository extends MyCustomCommonRepository<Post, Long>, Qu
 
     List<Post> findByTitleStartsWith(String title);
 
-    @Query("select p from Post p where p.title = :title")
+    @Query("select p from #{#entityName} p where p.title = :title")
     List<Post> findByTitle(@Param("title") String keyword, Sort sort);
 }

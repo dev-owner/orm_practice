@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
@@ -63,7 +65,8 @@ public class PostRepositoryTest {
         post.setTitle("Spring Data Jpa");
         Post save = postRepository.save(post);
 
-        List<Post> spring = postRepository.findByTitle("Spring Data Jpa");
+//        List<Post> spring = postRepository.findByTitle("Spring Data Jpa", Sort.by("title"));
+        List<Post> spring = postRepository.findByTitle("Spring Data Jpa", JpaSort.unsafe("LENGTH(title)"));
         assertThat(spring.size()).isEqualTo(1);
     }
 

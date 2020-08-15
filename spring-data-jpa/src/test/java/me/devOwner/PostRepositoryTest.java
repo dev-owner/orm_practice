@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,8 +29,8 @@ public class PostRepositoryTest {
     @Test
     public void save() {
         Post post = new Post();
-        post.setTitle("jpa");
-        Post savedPost = postRepository.save(post); // persist
+        post.setTitle("Spring Data Jpa");
+        Post savedPost = postRepository.save(post);
 
         assertThat(entityManager.contains(post)).isTrue();
         assertThat(entityManager.contains(savedPost)).isTrue();
@@ -51,9 +52,7 @@ public class PostRepositoryTest {
 
     @Test
     public void findByTitleStartsWith() {
-        Post post = new Post();
-        post.setTitle("Spring Data Jpa");
-        Post save = postRepository.save(post);
+        savePost();
 
         List<Post> spring = postRepository.findByTitleStartsWith("Spring");
         assertThat(spring.size()).isEqualTo(1);
@@ -61,13 +60,42 @@ public class PostRepositoryTest {
 
     @Test
     public void findByTitle() {
-        Post post = new Post();
-        post.setTitle("Spring Data Jpa");
-        Post save = postRepository.save(post);
+        savePost();
 
 //        List<Post> spring = postRepository.findByTitle("Spring Data Jpa", Sort.by("title"));
         List<Post> spring = postRepository.findByTitle("Spring Data Jpa", JpaSort.unsafe("LENGTH(title)"));
         assertThat(spring.size()).isEqualTo(1);
     }
 
+
+    @Test
+    public void updateTitle() {
+        Post post = savePost();
+        int cnt = postRepository.updateTitle("hibernate", post.getId());
+        assertThat(cnt).isEqualTo(1);
+
+        // 1차 캐시에 있기 떄문에, db에는 업데이트 되었지만 객체에서는 업데이트가 되지 않는다.
+        // @Modifying(clearAutomatically = true) 옵션을 통해 pc를 초기화 하고 find할 때 db 값을 읽어온다.
+        // 따라서, update, delete는 이런 방식으로 안하는 것을 추천한다.
+        Optional<Post> byId = postRepository.findById(post.getId());
+        assertThat(byId.get().getTitle()).isEqualTo("hibernate");
+
+    }
+
+    @Test
+    public void updateTitleBySet() {
+        Post post = savePost();
+        post.setTitle("changed");
+
+        List<Post> all = postRepository.findAll();
+        assertThat(all.get(0).getTitle()).isEqualTo("changed");
+    }
+
+
+    private Post savePost() {
+        Post post = new Post();
+        post.setTitle("Spring Data Jpa");
+        Post save = postRepository.save(post);
+        return save;
+    }
 }

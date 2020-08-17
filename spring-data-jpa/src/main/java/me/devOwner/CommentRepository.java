@@ -24,6 +24,7 @@ public interface CommentRepository extends MyRepository<Comment, Long> {
     Future<List<Comment>> findByCommentContainsIgnoreCaseOrderByLikeCountAsc(String keyword, Pageable pageable);
 
     @EntityGraph(value = "Comment.post")
+    //@EntityGraph(attributePaths = "post")
     Optional<Comment> getById(Long id);
 
 }

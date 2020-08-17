@@ -79,12 +79,20 @@ public class CommentRepositoryTest {
 
     }
 
+    @Test
+    public void getComment() {
+        Optional<Comment> byId = commentRepository.findById(1l);
+        commentRepository.getById(1l);
+    }
+
     private void createComment(String text, int likeCount) {
         Comment comment = new Comment();
         comment.setComment(text);
         comment.setLikeCount(likeCount);
         commentRepository.save(comment);
     }
+
+
 
 
 }

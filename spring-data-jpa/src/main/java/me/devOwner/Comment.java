@@ -1,10 +1,9 @@
 package me.devOwner;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+@NamedEntityGraph(name = "Comment.post"
+        , attributeNodes = @NamedAttributeNode("post"))
 @Entity
 public class Comment {
     @Id @GeneratedValue
@@ -12,7 +11,7 @@ public class Comment {
 
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
     private Integer likeCount = 0;

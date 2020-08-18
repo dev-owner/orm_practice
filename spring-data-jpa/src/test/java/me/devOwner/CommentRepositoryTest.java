@@ -24,6 +24,9 @@ public class CommentRepositoryTest {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    PostRepository postRepository;
+
     @Test
     public void crud() throws IllegalAccessException {
 
@@ -81,9 +84,28 @@ public class CommentRepositoryTest {
 
     @Test
     public void getComment() {
+        Post post = new Post();
+        post.setTitle("jpa");
+        Post savedPost = postRepository.save(post);
+
+        Comment comment = new Comment();
+        comment.setComment("jpa");
+        comment.setPost(savedPost);
+        comment.setUp(10);
+        comment.setDown(1);
+        commentRepository.save(comment);
+
+        commentRepository.findByPost_Id(savedPost.getId(), CommentOnly.class).forEach(c -> {
+            System.out.println(c.getComment());
+        });
+
         Optional<Comment> byId = commentRepository.findById(1l);
         commentRepository.getById(1l);
+
+        //closed projection
+        commentRepository.findByPost_Id(1l, CommentSummary.class);
     }
+
 
     private void createComment(String text, int likeCount) {
         Comment comment = new Comment();

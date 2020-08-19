@@ -15,6 +15,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
+import static me.devOwner.CommentSpecs.isBest;
+import static me.devOwner.CommentSpecs.isGood;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -106,6 +108,12 @@ public class CommentRepositoryTest {
         commentRepository.findByPost_Id(1l, CommentSummary.class);
     }
 
+    @Test
+    public void specs() {
+        Page<Comment> all = commentRepository.
+                findAll(isBest().or(isGood()),
+                        PageRequest.of(0, 10));
+    }
 
     private void createComment(String text, int likeCount) {
         Comment comment = new Comment();
@@ -113,8 +121,5 @@ public class CommentRepositoryTest {
         comment.setLikeCount(likeCount);
         commentRepository.save(comment);
     }
-
-
-
 
 }

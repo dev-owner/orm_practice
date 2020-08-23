@@ -4,9 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -113,6 +111,18 @@ public class CommentRepositoryTest {
         Page<Comment> all = commentRepository.
                 findAll(isBest().or(isGood()),
                         PageRequest.of(0, 10));
+    }
+
+    @Test
+    public void qbe() {
+        Comment prove = new Comment();
+        prove.setBest(true);
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+                .withIgnorePaths("up", "down", "likeCount");
+
+        Example<Comment> example = Example.of(prove, exampleMatcher);
+        commentRepository.findAll(example);
     }
 
     private void createComment(String text, int likeCount) {

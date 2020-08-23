@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
-public interface CommentRepository extends MyRepository<Comment, Long>, JpaSpecificationExecutor<Comment> {
+public interface CommentRepository extends MyRepository<Comment, Long>, JpaSpecificationExecutor<Comment>, QueryByExampleExecutor<Comment> {
 
     List<Comment> findByCommentContainsIgnoreCaseAndLikeCountGreaterThan(String keyword, int number);
 

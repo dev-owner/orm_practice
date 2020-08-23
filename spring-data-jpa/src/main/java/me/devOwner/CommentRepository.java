@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,7 @@ public interface CommentRepository extends MyRepository<Comment, Long>, JpaSpeci
     //@EntityGraph(attributePaths = "post")
     Optional<Comment> getById(Long id);
 
+    @Transactional(readOnly = true)
     <T> List<T> findByPost_Id(Long id, Class<T> type);
 
 }

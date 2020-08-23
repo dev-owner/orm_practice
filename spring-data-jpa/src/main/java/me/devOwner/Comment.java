@@ -1,10 +1,18 @@
 package me.devOwner;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @NamedEntityGraph(name = "Comment.post"
         , attributeNodes = @NamedAttributeNode("post"))
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
     @Id @GeneratedValue
     private Long id;
@@ -19,6 +27,24 @@ public class Comment {
     private int down;
 
     private boolean best;
+
+    @CreatedDate
+    private Date created;
+
+    @CreatedBy
+    @ManyToOne
+    private Account createdBy;
+    @LastModifiedDate
+    private Date Updated;
+    @LastModifiedBy
+    @ManyToOne
+    private Account updatedBy;
+
+    //엔티티 저장 전에 호출됨. 아래 메소드는 해당 이벤트의 callback
+    @PrePersist
+    public void prePersist() {
+        System.out.println("pre persist is called");
+    }
 
     public int getUp() {
         return up;
